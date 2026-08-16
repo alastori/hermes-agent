@@ -21,6 +21,9 @@ import {
   $reviewShipBusy,
   $reviewShipInfo,
   $reviewTurnBase,
+  $reviewTreeMode,
+  $reviewWrapLines,
+  cancelRevert,
   clearReviewSelection,
   closeReview,
   commitChanges,
@@ -37,6 +40,8 @@ import {
   selectReviewFile,
   stageReviewFile,
   toggleReview,
+  toggleReviewTreeMode,
+  toggleReviewWrapLines,
   unstageReviewFile
 } from './review'
 import { $busy, $currentCwd } from './session'
@@ -116,6 +121,7 @@ beforeEach(() => {
   $reviewTurnBase.set({})
   $reviewScopeCwd.set(null)
   $reviewScopeTarget.set('main')
+  $reviewWrapLines.set(false)
   $currentCwd.set('/repo')
   $busy.set(false)
   $sessionStates.set({})
@@ -359,6 +365,22 @@ describe('selectReviewFile', () => {
 })
 
 describe('view state', () => {
+  it('toggleReviewTreeMode flips list <-> tree', () => {
+    $reviewTreeMode.set('tree')
+    toggleReviewTreeMode()
+    expect($reviewTreeMode.get()).toBe('list')
+    toggleReviewTreeMode()
+    expect($reviewTreeMode.get()).toBe('tree')
+  })
+
+  it('toggleReviewWrapLines flips the wrap preference', () => {
+    $reviewWrapLines.set(false)
+    toggleReviewWrapLines()
+    expect($reviewWrapLines.get()).toBe(true)
+    toggleReviewWrapLines()
+    expect($reviewWrapLines.get()).toBe(false)
+  })
+
   it('openReview opens the pane and kicks off a refresh', async () => {
     const review = stubReview()
     openReview()

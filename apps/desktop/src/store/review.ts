@@ -36,6 +36,7 @@ const OPEN_KEY = 'hermes.desktop.reviewOpen'
 const COMMIT_DEFAULT_KEY = 'hermes.desktop.reviewCommitDefault'
 const TREE_MODE_KEY = 'hermes.desktop.reviewTreeMode'
 const SCOPE_KEY = 'hermes.desktop.reviewScope'
+const WRAP_LINES_KEY = 'hermes.desktop.reviewWrapLines'
 const SELECTED_KEY = 'hermes.desktop.reviewSelectedPath'
 const REVIEW_REFRESH_DEBOUNCE_MS = 100
 const SHIP_INFO_STALE_MS = 30_000
@@ -116,6 +117,14 @@ function recordTurnBase(cwd: string, sha: string): void {
 
   rest.push([cwd, sha])
   $reviewTurnBase.set(Object.fromEntries(rest))
+}
+
+// Persisted so a relaunch restores whether long diff lines wrap instead of
+// scrolling horizontally (long markdown lines read better wrapped).
+export const $reviewWrapLines = persistentAtom(WRAP_LINES_KEY, false, Codecs.bool)
+
+export function toggleReviewWrapLines(): void {
+  $reviewWrapLines.set(!$reviewWrapLines.get())
 }
 
 export const $reviewFiles = atom<HermesReviewFile[]>([])

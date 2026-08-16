@@ -4223,6 +4223,8 @@ export const en: Translations = {
     folderTip: cwd => cwd,
     openFolder: 'Open folder',
     refreshTree: 'Refresh tree',
+    wrapLines: 'Wrap lines',
+    unwrapLines: 'Unwrap lines',
     collapseAll: 'Collapse all folders',
     showIgnored: 'Show gitignored files',
     hideIgnored: 'Hide gitignored files',

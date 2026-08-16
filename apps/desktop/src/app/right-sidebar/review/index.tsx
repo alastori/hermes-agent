@@ -23,6 +23,7 @@ import {
   $reviewScope,
   $reviewSelectedPath,
   $reviewTreeMode,
+  $reviewWrapLines,
   cancelRevert,
   clearReviewSelection,
   closeReview,
@@ -31,6 +32,7 @@ import {
   requestRevert,
   stageReviewFile,
   toggleReviewTreeMode,
+  toggleReviewWrapLines,
   unstageReviewFile
 } from '@/store/review'
 
@@ -61,6 +63,7 @@ export function ReviewPane() {
   // Stage / unstage / revert and the ship bar act on the working tree, so they
   // only apply to the uncommitted scope; branch / last-turn are read-only.
   const isUncommitted = scope === 'uncommitted'
+  const wrapLines = useStore($reviewWrapLines)
 
   const selectedFile = files.find(file => file.path === selectedPath)
   const hasFiles = files.length > 0
@@ -100,6 +103,17 @@ export function ReviewPane() {
               variant="ghost"
             >
               <Codicon name={treeMode === 'tree' ? 'list-flat' : 'list-tree'} size="0.8125rem" />
+            </Button>
+          </Tip>
+          <Tip label={wrapLines ? t.rightSidebar.unwrapLines : t.rightSidebar.wrapLines}>
+            <Button
+              aria-label={wrapLines ? t.rightSidebar.unwrapLines : t.rightSidebar.wrapLines}
+              className={ACTION_BTN}
+              onClick={toggleReviewWrapLines}
+              size="icon-xs"
+              variant={wrapLines ? 'secondary' : 'ghost'}
+            >
+              <Codicon name="word-wrap" size="0.8125rem" />
             </Button>
           </Tip>
           <Tip label={c.stageAll}>
@@ -204,7 +218,7 @@ export function ReviewPane() {
                 <DiffSkeleton />
               ) : null
             ) : diff ? (
-              <FileDiffPanel className="mx-0 mb-0 h-full max-h-none" diff={diff} path={selectedFile.path} virtualized />
+              <FileDiffPanel className="mx-0 mb-0 h-full max-h-none" diff={diff} path={selectedFile.path} virtualized wrap={wrapLines} />
             ) : (
               <div className="py-6 text-center text-[0.66rem] text-muted-foreground/60">{c.noDiff}</div>
             )}

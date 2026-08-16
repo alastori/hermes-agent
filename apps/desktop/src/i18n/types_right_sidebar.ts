@@ -16,6 +16,8 @@ export interface RightSidebarTranslations {
   remotePickerCreateFolderFailed: (error: string) => string
   folderTip: (cwd: string) => string
   openFolder: string
+  wrapLines: string
+  unwrapLines: string
   refreshTree: string
   collapseAll: string
   showIgnored: string
