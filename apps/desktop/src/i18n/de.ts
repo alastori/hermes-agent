@@ -4650,6 +4650,8 @@ export const deOverrides = {
     remotePickerCreateFolderFailed: error => `Der Ordner konnte nicht erstellt werden (${error}).`,
     folderTip: cwd => cwd,
     openFolder: 'Ordner öffnen',
+    wrapLines: 'Zeilen umbrechen',
+    unwrapLines: 'Zeilenumbruch deaktivieren',
     refreshTree: 'Baum aktualisieren',
     collapseAll: 'Alle Ordner einklappen',
     showIgnored: 'Von Git ignorierte Dateien anzeigen',

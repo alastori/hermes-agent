@@ -3310,6 +3310,8 @@ export const ruOverrides = {
     remotePickerCreateFolderFailed: error => `Не удалось создать папку (${error}).`,
     folderTip: cwd => cwd,
     openFolder: 'Открыть папку',
+    wrapLines: 'Переносить строки',
+    unwrapLines: 'Отключить перенос строк',
     refreshTree: 'Обновить дерево',
     collapseAll: 'Свернуть все папки',
     showIgnored: 'Показать файлы из gitignore',

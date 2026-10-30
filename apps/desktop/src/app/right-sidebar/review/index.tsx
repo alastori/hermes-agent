@@ -105,17 +105,7 @@ export function ReviewPane() {
               <Codicon name={treeMode === 'tree' ? 'list-flat' : 'list-tree'} size="0.8125rem" />
             </Button>
           </Tip>
-          <Tip label={wrapLines ? t.rightSidebar.unwrapLines : t.rightSidebar.wrapLines}>
-            <Button
-              aria-label={wrapLines ? t.rightSidebar.unwrapLines : t.rightSidebar.wrapLines}
-              className={ACTION_BTN}
-              onClick={toggleReviewWrapLines}
-              size="icon-xs"
-              variant={wrapLines ? 'secondary' : 'ghost'}
-            >
-              <Codicon name="word-wrap" size="0.8125rem" />
-            </Button>
-          </Tip>
+          <ReviewWrapButton wrapLines={wrapLines} />
           <Tip label={c.stageAll}>
             <Button
               aria-label={c.stageAll}
@@ -253,5 +243,24 @@ export function ReviewPane() {
         title={revertingAll ? c.revertAll : c.revert}
       />
     </aside>
+  )
+}
+
+function ReviewWrapButton({ wrapLines }: { wrapLines: boolean }) {
+  const { t } = useI18n()
+  const label = wrapLines ? t.rightSidebar.unwrapLines : t.rightSidebar.wrapLines
+
+  return (
+    <Tip label={label}>
+      <Button
+        aria-label={label}
+        className={ACTION_BTN}
+        onClick={toggleReviewWrapLines}
+        size="icon-xs"
+        variant={wrapLines ? 'secondary' : 'ghost'}
+      >
+        <Codicon name="word-wrap" size="0.8125rem" />
+      </Button>
+    </Tip>
   )
 }

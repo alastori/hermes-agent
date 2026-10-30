@@ -4659,6 +4659,8 @@ export const frOverrides = {
     remotePickerCreateFolderFailed: error => `Impossible de créer le dossier (${error}).`,
     folderTip: cwd => cwd,
     openFolder: 'Ouvrir le dossier',
+    wrapLines: 'Activer le retour à la ligne',
+    unwrapLines: 'Désactiver le retour à la ligne',
     refreshTree: "Actualiser l'arbre",
     collapseAll: 'Réduire tous les dossiers',
     showIgnored: 'Afficher les fichiers ignorés par Git',

@@ -4635,6 +4635,8 @@ export const esOverrides = {
     remotePickerCreateFolderFailed: error => `No se pudo crear la carpeta (${error}).`,
     folderTip: cwd => cwd,
     openFolder: 'Abrir carpeta',
+    wrapLines: 'Ajustar líneas',
+    unwrapLines: 'Desactivar ajuste de líneas',
     refreshTree: 'Actualizar árbol',
     collapseAll: 'Contraer todas las carpetas',
     showIgnored: 'Mostrar archivos ignorados por git',

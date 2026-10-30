@@ -442,6 +442,8 @@ export const zhHantChrome = {
     remotePickerCreateFolderFailed: error => `無法建立資料夾 (${error})。`,
     folderTip: cwd => cwd,
     openFolder: '開啟資料夾',
+    wrapLines: '自動換行',
+    unwrapLines: '取消自動換行',
     refreshTree: '重新整理檔案樹',
     collapseAll: '收合所有資料夾',
     showIgnored: '顯示 gitignore 的檔案',

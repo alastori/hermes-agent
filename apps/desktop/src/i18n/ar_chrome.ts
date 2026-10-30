@@ -496,6 +496,8 @@ export const arChrome = {
     remotePickerCreateFolderFailed: error => `تعذر إنشاء المجلد: ${error}`,
     folderTip: cwd => cwd,
     openFolder: 'فتح مجلد',
+    wrapLines: 'التفاف الأسطر',
+    unwrapLines: 'إلغاء التفاف الأسطر',
     refreshTree: 'تحديث الشجرة',
     collapseAll: 'طي الكل',
     showIgnored: 'إظهار الملفات المتجاهلة في git',

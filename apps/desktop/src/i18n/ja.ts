@@ -3058,6 +3058,8 @@ export const jaOverrides = {
     remotePickerCreateFolderFailed: error => `フォルダーを作成できませんでした (${error})。`,
     folderTip: cwd => cwd,
     openFolder: 'フォルダーを開く',
+    wrapLines: '行を折り返す',
+    unwrapLines: '行の折り返しを解除',
     refreshTree: 'ツリーを更新',
     collapseAll: 'すべてのフォルダーを折りたたむ',
     showIgnored: 'gitignore されたファイルを表示',
