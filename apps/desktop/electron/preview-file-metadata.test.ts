@@ -91,6 +91,40 @@ describe('previewFileMetadata', () => {
     })
   })
 
+  it('samples at most 4096 bytes and ignores binary bytes beyond that prefix', async () => {
+    const contents = Buffer.alloc(8192, 65)
+    contents[4096] = 0
+    const filePath = await fixture('bounded.dat', contents)
+    const handle = await fs.promises.open(filePath, 'r')
+    const read = vi.spyOn(handle, 'read')
+    const close = vi.spyOn(handle, 'close')
+    vi.spyOn(fs.promises, 'open').mockResolvedValueOnce(handle)
+
+    await expect(previewFileMetadata(filePath, 'application/octet-stream')).resolves.toEqual({
+      binary: false,
+      byteSize: contents.length,
+      large: false
+    })
+    expect(read).toHaveBeenCalledOnce()
+    expect(read).toHaveBeenCalledWith(expect.any(Buffer), 0, 4096, 0)
+    expect(close).toHaveBeenCalledOnce()
+  })
+
+  it('classifies only bytes actually read when the file shrinks after stat', async () => {
+    const filePath = await fixture('shrinking.dat', 'hello')
+    const handle = await fs.promises.open(filePath, 'r')
+    const close = vi.spyOn(handle, 'close')
+    vi.spyOn(fs.promises, 'open').mockResolvedValueOnce(handle)
+
+    // A stale size allocates a larger zero-filled buffer; unread padding is not content.
+    await expect(previewFileMetadata(filePath, 'application/octet-stream', { stat: { size: 8192 } })).resolves.toEqual({
+      binary: false,
+      byteSize: 8192,
+      large: false
+    })
+    expect(close).toHaveBeenCalledOnce()
+  })
+
   it('keeps empty and missing files best-effort without opening an empty file', async () => {
     const empty = await fixture('empty.txt', '')
     const open = vi.spyOn(fs.promises, 'open')
