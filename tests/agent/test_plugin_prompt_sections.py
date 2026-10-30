@@ -26,13 +26,13 @@ from hermes_cli.plugins import (
 from run_agent import AIAgent
 
 
-def _real_agent(*, session_id: str = "plugin-section-test") -> AIAgent:
+def _real_agent(*, session_id: str = "plugin-section-test", platform: str = "cli") -> AIAgent:
     return AIAgent(
         api_key="test-key",
         base_url="https://openrouter.ai/api/v1",
         model="test/model",
         provider="openrouter",
-        platform="cli",
+        platform=platform,
         quiet_mode=True,
         skip_context_files=True,
         skip_memory=True,
@@ -247,7 +247,7 @@ def test_fresh_process_resume_restores_identical_full_prompt_without_callback(tm
     assert outputs[1]["calls_after_rebuild"] == 2
 
 
-def _prompt_with_section(monkeypatch, content: str) -> tuple[AIAgent, str]:
+def _prompt_with_section(monkeypatch, content: str, *, platform: str = "cli") -> tuple[AIAgent, str]:
     """A real agent and the full prompt it builds with one plugin section."""
     monkeypatch.setattr(
         "agent.coding_context.build_coding_workspace_block",
@@ -256,7 +256,7 @@ def _prompt_with_section(monkeypatch, content: str) -> tuple[AIAgent, str]:
     manager = PluginManager()
     _install_test_section(manager, content)
     monkeypatch.setattr(plugins, "_plugin_manager", manager)
-    agent = _real_agent()
+    agent = _real_agent(platform=platform)
     return agent, build_system_prompt(agent)
 
 
@@ -269,10 +269,11 @@ def _resumed(agent: AIAgent, prompt: str) -> AIAgent:
     return resumed
 
 
-def test_sections_are_recovered_from_the_prompt_the_builder_emits(monkeypatch):
+@pytest.mark.parametrize("platform", ["cli", "desktop", "telegram"])
+def test_sections_are_recovered_from_the_prompt_the_builder_emits(monkeypatch, platform):
     # The builder puts the active-profile paragraph between the sections and
     # the timestamp; recovery has to read through it.
-    _agent, prompt = _prompt_with_section(monkeypatch, "persisted rules")
+    _agent, prompt = _prompt_with_section(monkeypatch, "persisted rules", platform=platform)
     assert f"{PLUGIN_SECTIONS_END}\n\nActive Hermes profile: " in prompt
 
     restored = _restore_plugin_prompt_sections(prompt)
